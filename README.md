@@ -25,7 +25,7 @@ Before you begin, ensure you have met the following requirements:
 
 To install the Nessus to CSV Converter, follow these steps:
 
-1. Clone this repository to your local machine using `git clone https://github.com/your-username/nessus-to-csv-converter.git`
+1. Clone this repository to your local machine
 2. Navigate to the directory of the cloned repository.
 
 ## Usage
