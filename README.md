@@ -37,7 +37,9 @@ To use the Nessus to CSV Converter, follow these steps:
 
 ```bash
 python3 nessus_to_csv.py -i [input_directory] -o [output_file.csv] -p [product_name]
+
 or
+
 ```bash
 python3 nessus_to_csv.py -f [input_file.nessus] -o [output_file.csv] -p [product_name]
 
