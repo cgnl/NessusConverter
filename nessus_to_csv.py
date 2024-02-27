@@ -36,15 +36,15 @@ def process_nessus_file(file_path, csvwriter):
                 cves = reportItem.findall('cve')
                 cve_list = ', '.join(cve.text for cve in cves) if cves else 'N/A'
 
-                # Adjusting the order as per the latest requirement
-                data_row = [severity, cvss_score, vpr_score, plugin_id, plugin_name]
+                # Adjusting the order and including all required fields
+                data_row = [scan_group, ip, port, cve_list, severity, cvss_score, vpr_score, plugin_id, plugin_name]
                 csvwriter.writerow(data_row)
 
 def main(input_dir, input_file, output_file):
     with open(output_file, 'w', newline='') as nessus_file:
         csvwriter = csv.writer(nessus_file, delimiter=';')
-        # Updated headers based on the new order
-        headers = ['Severity', 'CVSS Score', 'VPR Score', 'Plugin ID', 'Name']
+        # Updated headers to match the new requirement
+        headers = ['Scan Group', 'IP Address', 'Port', 'CVEs', 'Severity', 'CVSS Score', 'VPR Score', 'Plugin ID', 'Name']
         csvwriter.writerow(headers)
 
         if input_dir:
