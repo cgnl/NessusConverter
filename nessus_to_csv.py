@@ -25,7 +25,7 @@ def process_nessus_file(file_path, csvwriter):
 
         for reportItem in reportHost.iter('ReportItem'):
             risk_factor = reportItem.find('risk_factor')
-            if risk_factor is not None:  # Only process if risk_factor is not None
+            if risk_factor is not None and risk_factor.text != "None":  # Check for risk_factor being not "None"
                 severity = risk_factor.text
                 cvss_score = reportItem.find('cvss3_base_score').text if reportItem.find('cvss3_base_score') is not None else 'N/A'
                 vpr_score = reportItem.find('vpr_score').text if reportItem.find('vpr_score') is not None else 'N/A'
@@ -36,13 +36,15 @@ def process_nessus_file(file_path, csvwriter):
                 cves = reportItem.findall('cve')
                 cve_list = ', '.join(cve.text for cve in cves) if cves else 'N/A'
 
-                data_row = [scan_group, ip, port, cve_list, severity, cvss_score, vpr_score, plugin_id, plugin_name]
+                # Adjusting the order as per the latest requirement
+                data_row = [severity, cvss_score, vpr_score, plugin_id, plugin_name]
                 csvwriter.writerow(data_row)
 
 def main(input_dir, input_file, output_file):
     with open(output_file, 'w', newline='') as nessus_file:
         csvwriter = csv.writer(nessus_file, delimiter=';')
-        headers = ['Scan Group', 'IP Address', 'Port', 'CVEs', 'Severity', 'CVSS Score', 'VPR Score', 'Plugin ID', 'Name']
+        # Updated headers based on the new order
+        headers = ['Severity', 'CVSS Score', 'VPR Score', 'Plugin ID', 'Name']
         csvwriter.writerow(headers)
 
         if input_dir:
