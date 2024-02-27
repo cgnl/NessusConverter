@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import xml.etree.ElementTree as etree
 import csv
 import os
@@ -22,7 +24,8 @@ def process_nessus_file(file_path, csvwriter):
         ip = reportHost.get('name')
 
         for reportItem in reportHost.iter('ReportItem'):
-            severity = reportItem.get('severity')
+            # Changed to get 'risk_factor' for severity
+            severity = reportItem.find('risk_factor').text if reportItem.find('risk_factor') is not None else 'N/A'
             cvss_score = reportItem.find('cvss3_base_score').text if reportItem.find('cvss3_base_score') is not None else 'N/A'
             vpr_score = reportItem.find('vpr_score').text if reportItem.find('vpr_score') is not None else 'N/A'
             plugin_id = reportItem.get('pluginID')
