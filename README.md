@@ -7,12 +7,15 @@ This Python script allows for the quick and efficient conversion of Nessus scan 
 - Convert multiple Nessus files in a directory or a single Nessus file to CSV format.
 - Include a custom product name in the CSV output.
 - The generated CSV file contains the following information:
-    - Product Name
+    - Scan Group
     - IP Address
     - Port
-    - Vulnerability
-    - Severity
     - CVEs
+    - Severity
+    - CVSS Score
+    - VPR Score
+    - Plugin ID
+    - Name
 
 ## Prerequisites
 
