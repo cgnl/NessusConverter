@@ -18,8 +18,7 @@ This Python script allows for the quick and efficient conversion of Nessus scan 
 
 Before you begin, ensure you have met the following requirements:
 
-- You have installed Python 3.x.
-- You have a basic understanding of Python programming and command-line operations.
+- You have installed Python 3
 
 ## Installation
 
