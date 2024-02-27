@@ -4,7 +4,7 @@ import os
 import argparse
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Converts Nessus files into a CSV file.")
+    parser = argparse.ArgumentParser(description="Converts Nessus files into a CSV file with semicolon delimiters.")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-i", "--input_dir", type=str, help="Directory containing the Nessus files")
     group.add_argument("-f", "--input_file", type=str, help="Path to a single Nessus file")
@@ -37,7 +37,7 @@ def process_nessus_file(file_path, csvwriter):
 
 def main(input_dir, input_file, output_file):
     with open(output_file, 'w', newline='') as nessus_file:
-        csvwriter = csv.writer(nessus_file)
+        csvwriter = csv.writer(nessus_file, delimiter=';')
         headers = ['Scan Group', 'IP Address', 'Port', 'CVEs', 'Severity', 'CVSS Score', 'VPR Score', 'Plugin ID', 'Name']
         csvwriter.writerow(headers)
 
