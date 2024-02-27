@@ -24,19 +24,20 @@ def process_nessus_file(file_path, csvwriter):
         ip = reportHost.get('name')
 
         for reportItem in reportHost.iter('ReportItem'):
-            # Changed to get 'risk_factor' for severity
-            severity = reportItem.find('risk_factor').text if reportItem.find('risk_factor') is not None else 'N/A'
-            cvss_score = reportItem.find('cvss3_base_score').text if reportItem.find('cvss3_base_score') is not None else 'N/A'
-            vpr_score = reportItem.find('vpr_score').text if reportItem.find('vpr_score') is not None else 'N/A'
-            plugin_id = reportItem.get('pluginID')
-            plugin_name = reportItem.get('pluginName')
-            port = reportItem.get('port')
-            
-            cves = reportItem.findall('cve')
-            cve_list = ', '.join(cve.text for cve in cves) if cves else 'N/A'
+            risk_factor = reportItem.find('risk_factor')
+            if risk_factor is not None:  # Only process if risk_factor is not None
+                severity = risk_factor.text
+                cvss_score = reportItem.find('cvss3_base_score').text if reportItem.find('cvss3_base_score') is not None else 'N/A'
+                vpr_score = reportItem.find('vpr_score').text if reportItem.find('vpr_score') is not None else 'N/A'
+                plugin_id = reportItem.get('pluginID')
+                plugin_name = reportItem.get('pluginName')
+                port = reportItem.get('port')
+                
+                cves = reportItem.findall('cve')
+                cve_list = ', '.join(cve.text for cve in cves) if cves else 'N/A'
 
-            data_row = [scan_group, ip, port, cve_list, severity, cvss_score, vpr_score, plugin_id, plugin_name]
-            csvwriter.writerow(data_row)
+                data_row = [scan_group, ip, port, cve_list, severity, cvss_score, vpr_score, plugin_id, plugin_name]
+                csvwriter.writerow(data_row)
 
 def main(input_dir, input_file, output_file):
     with open(output_file, 'w', newline='') as nessus_file:
